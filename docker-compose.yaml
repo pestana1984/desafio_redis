@@ -1,0 +1,25 @@
+version: '3.8'
+
+networks:
+  desafio-redis:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:latest
+
+    networks:
+      - desafio-redis
+    container_name: redis
+
+  commander:
+    image: rediscommander/redis-commander
+    ports:
+      - 8081:8081
+    depends_on: 
+    - redis
+    environment:
+      - REDIS_HOSTS=redis
+    networks:
+      - desafio-redis
+    container_name: commander
